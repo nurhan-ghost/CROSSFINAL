@@ -25,7 +25,7 @@ List<ShoeCategory> categories = [
 
   ShoeCategory(
     name: 'Basketball',
-    numberOfProducts: 12,
+    numberOfProducts: 14,
     imagePath: 'assets/categories/basketball.jpg',
     brand: 'Jordan',
     tagline: 'FLY HIGH',
