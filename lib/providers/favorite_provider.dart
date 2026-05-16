@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/shoe.dart';
+import '../models/product.dart';
 
-class FavoriteNotifier extends StateNotifier<List<Shoe>> {
+class FavoriteNotifier extends StateNotifier<List<Product>> {
   FavoriteNotifier() : super([]);
 
-  void toggleFavorite(Shoe shoe) {
+  void toggleFavorite(Product shoe) {
     final exists = state.any((item) => item.id == shoe.id);
 
     if (exists) {
@@ -15,12 +15,13 @@ class FavoriteNotifier extends StateNotifier<List<Shoe>> {
     }
   }
 
-  bool isFavorite(Shoe shoe) {
+  bool isFavorite(Product shoe) {
     return state.any((item) => item.id == shoe.id);
   }
 }
 
+
 final favoriteProvider =
-    StateNotifierProvider<FavoriteNotifier, List<Shoe>>(
+    StateNotifierProvider<FavoriteNotifier, List<Product>>(
   (ref) => FavoriteNotifier(),
 );

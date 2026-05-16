@@ -78,7 +78,10 @@ class ShoeCategoryCard extends StatelessWidget {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.9),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .surface
+                          .withOpacity(0.9),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Text(
@@ -100,7 +103,7 @@ class ShoeCategoryCard extends StatelessWidget {
                     child: Text(
                       category.tagline,
                       style: textTheme.headlineSmall?.copyWith(
-                        color: Colors.white.withOpacity(0.9),
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -129,9 +132,7 @@ class ShoeCategoryCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   const SizedBox(height: 6),
-
                   Text(
                     '${category.numberOfProducts} products',
                     style: textTheme.bodySmall?.copyWith(

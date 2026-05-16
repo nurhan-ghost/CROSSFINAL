@@ -1,23 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/shoe.dart';
+import '../models/product.dart';
 
-class CartNotifier extends StateNotifier<List<Shoe>> {
+class CartNotifier extends StateNotifier<List<Product>> {
   CartNotifier() : super([]);
 
-  void addToCart(Shoe shoe) {
-    state = [...state, shoe];
+  void addToCart(Product product) {
+    state = [...state, product];
   }
 
-  void removeFromCart(Shoe shoe) {
+  void removeFromCart(Product product) {
     state = state.where(
-      (item) => item.id != shoe.id,
+      (item) => item.id != product.id,
     ).toList();
   }
 
-  bool isInCart(Shoe shoe) {
+  bool isInCart(Product product) {
     return state.any(
-      (item) => item.id == shoe.id,
+      (item) => item.id == product.id,
     );
   }
 
@@ -34,6 +34,6 @@ class CartNotifier extends StateNotifier<List<Shoe>> {
 }
 
 final cartProvider =
-    StateNotifierProvider<CartNotifier, List<Shoe>>(
+    StateNotifierProvider<CartNotifier, List<Product>>(
   (ref) => CartNotifier(),
 );
