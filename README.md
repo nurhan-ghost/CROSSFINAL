@@ -2,7 +2,7 @@
 
 CROSSFINAL is a Flutter-based sneaker store application developed as a final team project. The application demonstrates modern Flutter development concepts including Firebase integration, Riverpod state management, external API integration, responsive UI design, and e-commerce functionality.
 
----
+
 
 ## Features
 
@@ -20,7 +20,7 @@ CROSSFINAL is a Flutter-based sneaker store application developed as a final tea
 - Riverpod State Management
 - Theme and Color Customization
 
----
+
 
 ## Technologies Used
 
@@ -36,7 +36,7 @@ CROSSFINAL is a Flutter-based sneaker store application developed as a final tea
 - Cloud Firestore
 - External Sneaker API
 
----
+
 
 ## Project Structure
 
@@ -58,7 +58,7 @@ lib/
 └── constants.dart
 ````
 
----
+
 
 ## Firebase Integration
 
@@ -70,7 +70,7 @@ Cloud Firestore was used to:
 * save user order history
 * manage authenticated user data
 
----
+
 
 ## API Integration
 
@@ -84,7 +84,7 @@ The application uses an external sneaker API together with the Dio package to dy
 
 JSON responses are converted into Product model objects and displayed inside the application.
 
----
+
 
 ## Team Contributions
 
@@ -106,7 +106,7 @@ JSON responses are converted into Product model objects and displayed inside the
 * Favorites system
 * Application screens
 
----
+
 
 ## How to Run
 
@@ -135,7 +135,7 @@ Add your Firebase configuration files:
 flutter run
 ```
 
----
+
 
 ## Conclusion
 
