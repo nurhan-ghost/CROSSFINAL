@@ -1,0 +1,25 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "kodecochat-45588",
+                    "appId": "1:759341423312:android:4df787f305433b49d35cd5",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "kodecochat-45588",
+                    "configurations": {
+                        "android": "1:759341423312:android:4df787f305433b49d35cd5",
+                        "ios": "1:759341423312:ios:26ada468894adc56d35cd5",
+                        "macos": "1:759341423312:ios:26ada468894adc56d35cd5",
+                        "web": "1:759341423312:web:5672783730bda652d35cd5",
+                        "windows": "1:759341423312:web:0e5ff6db9fb40e09d35cd5"
+                    }
+                }
+            }
+        }
+    }
+}

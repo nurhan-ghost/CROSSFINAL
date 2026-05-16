@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../Color/app_colors.dart';
 
 class ThemeColorButton extends StatelessWidget {
@@ -7,10 +6,12 @@ class ThemeColorButton extends StatelessWidget {
     super.key,
     required this.onColorChanged,
     required this.selectedTheme,
+    required this.changeColor,
   });
 
   final void Function(int) onColorChanged;
   final AppThemeSelection selectedTheme;
+  final dynamic changeColor;
 
   @override
   Widget build(BuildContext context) {

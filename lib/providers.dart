@@ -1,18 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'models/product.dart';
+import 'providers/shoes_provider.dart';
 
-import 'models/shoe.dart';
 
-
-final shoesProvider = Provider<List<Shoe>>((ref) {
-  return shoes;
-});
+final shoesProvider =
+    FutureProvider<List<Product>>(
+  (ref) async {
+    return ShoesRepository()
+        .getAllShoes();
+  },
+);
 
 final favoriteShoesProvider =
-    StateProvider<List<Shoe>>((ref) {
+    StateProvider<List<Product>>((ref) {
   return [];
 });
 
 final cartProvider =
-    StateProvider<List<Shoe>>((ref) {
+    StateProvider<List<Product>>((ref) {
   return [];
 });
