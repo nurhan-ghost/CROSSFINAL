@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '/screens/product_details_screen.dart';
+
 import '../models/product.dart';
 import '../providers/cart_provider.dart';
 import '../providers/favorite_provider.dart';
@@ -28,7 +30,20 @@ class SneakerLandscapeCard extends ConsumerWidget {
       (item) => item.id == product.id,
     );
 
-    return Container(
+    return GestureDetector(
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+            ProductDetailsScreen(
+          product: product,
+        ),
+      ),
+    );
+  },
+
+  child: Container(
       margin: const EdgeInsets.symmetric(
         vertical: 10,
       ),
@@ -201,7 +216,7 @@ class SneakerLandscapeCard extends ConsumerWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }
 
