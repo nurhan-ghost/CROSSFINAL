@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '/screens/product_details_screen.dart';
+import '../screens/product_details_screen.dart';
 
 import '../models/product.dart';
 import '../providers/cart_provider.dart';
@@ -216,8 +216,8 @@ class SneakerLandscapeCard extends ConsumerWidget {
           ),
         ],
       ),
-    ));
+      )
+      );
   }
 }
 
-extension on Object? {}
