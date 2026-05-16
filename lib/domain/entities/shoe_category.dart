@@ -12,6 +12,7 @@ class ShoeCategory {
     required this.brand,
     required this.tagline,
   });
+
 }
 
 List<ShoeCategory> categories = [

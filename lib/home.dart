@@ -26,8 +26,7 @@ class Home extends ConsumerStatefulWidget {
     required this.appTitle,
   });
 
-  final AppThemeSelection
-      colorSelected;
+  final AppThemeSelection colorSelected;
 
   final void Function(
     bool useLightMode,
@@ -40,71 +39,54 @@ class Home extends ConsumerStatefulWidget {
   final String appTitle;
 
   @override
-  HomeState createState() =>
-      HomeState();
+  HomeState createState() => HomeState();
 }
 
-class HomeState
-    extends ConsumerState<Home> {
+class HomeState extends ConsumerState<Home> {
   int tab = 0;
+
+  String searchQuery = '';
+
+  String selectedCategory = '';
 
   @override
   Widget build(
     BuildContext context,
   ) {
-    final theme =
-        Theme.of(context);
+    final theme = Theme.of(context);
 
-    final shoesAsync =
-        ref.watch(shoesProvider);
+    final shoesAsync = ref.watch(shoesProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text(widget.appTitle),
-
+        title: Text(widget.appTitle),
         centerTitle: true,
-
         titleSpacing: 0,
-
         elevation: 4,
-
-        backgroundColor:
-            theme.colorScheme.surface,
-
-        shadowColor:
-            theme.shadowColor,
-
+        backgroundColor: theme.colorScheme.surface,
+        shadowColor: theme.shadowColor,
         actions: [
           AppThemeButton(
             onToggleTheme: () {
               final isDarkMode =
-                  Theme.of(context)
-                          .brightness ==
-                      Brightness.dark;
+                  Theme.of(context).brightness == Brightness.dark;
 
               widget.changeTheme(
                 isDarkMode,
               );
             },
           ),
-
           ThemeColorButton(
-            onColorChanged:
-                widget.changeColor,
-
-            selectedTheme:
-                widget.colorSelected,
+            onColorChanged: widget.changeColor,
+            selectedTheme: widget.colorSelected,
           ),
-
           Consumer(
             builder: (
               context,
               ref,
               child,
             ) {
-              final cartItems =
-                  ref.watch(
+              final cartItems = ref.watch(
                 cartProvider,
               );
 
@@ -115,52 +97,31 @@ class HomeState
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) =>
-                              const CartScreen(),
+                          builder: (_) => const CartScreen(),
                         ),
                       );
                     },
-
-                    icon:
-                        const Icon(
-                      Icons
-                          .shopping_cart_outlined,
+                    icon: const Icon(
+                      Icons.shopping_cart_outlined,
                     ),
                   ),
-
-                  if (cartItems
-                      .isNotEmpty)
+                  if (cartItems.isNotEmpty)
                     Positioned(
                       right: 6,
                       top: 6,
-
-                      child:
-                          Container(
-                        padding:
-                            const EdgeInsets.all(
+                      child: Container(
+                        padding: const EdgeInsets.all(
                           4,
                         ),
-
-                        decoration:
-                            const BoxDecoration(
-                          color:
-                              Colors.red,
-
-                          shape:
-                              BoxShape.circle,
+                        decoration: const BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
                         ),
-
                         child: Text(
-                          cartItems.length
-                              .toString(),
-
-                          style:
-                              const TextStyle(
-                            color:
-                                Colors.white,
-
-                            fontSize:
-                                10,
+                          cartItems.length.toString(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
                           ),
                         ),
                       ),
@@ -169,59 +130,47 @@ class HomeState
               );
             },
           ),
-
           IconButton(
             onPressed: () async {
-              await FirebaseAuth
-                  .instance
-                  .signOut();
+              await FirebaseAuth.instance.signOut();
             },
-
             icon: const Icon(
               Icons.logout,
             ),
           ),
         ],
       ),
-
       body: IndexedStack(
         index: tab,
-
         children: [
           // CATEGORY SCREEN
           Padding(
-            padding:
-                const EdgeInsets.all(
+            padding: const EdgeInsets.all(
               16,
             ),
-
-            child:
-                GridView.builder(
-              itemCount:
-                  categories.length,
-
-              gridDelegate:
-                  const SliverGridDelegateWithFixedCrossAxisCount(
+            child: GridView.builder(
+              itemCount: categories.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-
-                crossAxisSpacing:
-                    16,
-
-                mainAxisSpacing:
-                    16,
-
-                childAspectRatio:
-                    0.72,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 0.72,
               ),
+              itemBuilder: (
+                context,
+                index,
+              ) {
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedCategory = categories[index].name;
 
-              itemBuilder:
-                  (
-                    context,
-                    index,
-                  ) {
-                return ShoeCategoryCard(
-                  category:
-                      categories[index],
+                      tab = 1;
+                    });
+                  },
+                  child: ShoeCategoryCard(
+                    category: categories[index],
+                  ),
                 );
               },
             ),
@@ -229,48 +178,92 @@ class HomeState
 
           // PRODUCTS SCREEN
           Padding(
-            padding:
-                const EdgeInsets.all(
+            padding: const EdgeInsets.all(
               16,
             ),
-
-            child:
-                shoesAsync.when(
-              data: (shoes) {
-                return ListView.builder(
-                  itemCount:
-                      shoes.length,
-
-                  itemBuilder:
-                      (
-                        context,
-                        index,
-                      ) {
-                    return SneakerLandscapeCard(
-                      product:
-                          shoes[index],
-                    );
+            child: Column(
+              children: [
+                // SEARCH BAR
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search sneakers',
+                    prefixIcon: const Icon(
+                      Icons.search,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        18,
+                      ),
+                    ),
+                  ),
+                  onChanged: (
+                    value,
+                  ) {
+                    setState(() {
+                      searchQuery = value;
+                    });
                   },
-                );
-              },
-
-              loading: () =>
-                  const Center(
-                child:
-                    CircularProgressIndicator(),
-              ),
-
-              error:
-                  (
-                    e,
-                    _,
-                  ) =>
-                      Center(
-                child:
-                    Text(
-                  'Error: $e',
                 ),
-              ),
+
+                const SizedBox(
+                  height: 16,
+                ),
+
+                Expanded(
+                  child: shoesAsync.when(
+                    data: (shoes) {
+                      final filteredShoes = shoes.where(
+                        (
+                          shoe,
+                        ) {
+                          final matchesSearch =
+                              shoe.title.toLowerCase().contains(
+                                    searchQuery.toLowerCase(),
+                                  );
+
+                          final matchesCategory = selectedCategory.isEmpty ||
+                              shoe.description.toLowerCase().contains(
+                                    selectedCategory.toLowerCase(),
+                                  );
+
+                          return matchesSearch && matchesCategory;
+                        },
+                      ).toList();
+                      if (filteredShoes.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            'No sneakers found',
+                          ),
+                        );
+                      }
+
+                      return ListView.builder(
+                        itemCount: filteredShoes.length,
+                        itemBuilder: (
+                          context,
+                          index,
+                        ) {
+                          return SneakerLandscapeCard(
+                            product: filteredShoes[index],
+                          );
+                        },
+                      );
+                    },
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    error: (
+                      e,
+                      _,
+                    ) =>
+                        Center(
+                      child: Text(
+                        'Error: $e',
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
 
@@ -278,59 +271,40 @@ class HomeState
           const ProfileScreen(),
         ],
       ),
-
-      bottomNavigationBar:
-          NavigationBar(
+      bottomNavigationBar: NavigationBar(
         selectedIndex: tab,
-
-        onDestinationSelected:
-            (index) {
+        onDestinationSelected: (index) {
           setState(() {
             tab = index;
           });
         },
-
         destinations: const [
           NavigationDestination(
             icon: Icon(
-              Icons
-                  .category_outlined,
+              Icons.category_outlined,
             ),
-
             selectedIcon: Icon(
               Icons.category,
             ),
-
-            label:
-                'Categories',
+            label: 'Categories',
           ),
-
           NavigationDestination(
             icon: Icon(
-              Icons
-                  .shopping_bag_outlined,
+              Icons.shopping_bag_outlined,
             ),
-
             selectedIcon: Icon(
               Icons.shopping_bag,
             ),
-
-            label:
-                'Sneakers',
+            label: 'Sneakers',
           ),
-
           NavigationDestination(
             icon: Icon(
-              Icons
-                  .person_outline,
+              Icons.person_outline,
             ),
-
             selectedIcon: Icon(
               Icons.person,
             ),
-
-            label:
-                'Profile',
+            label: 'Profile',
           ),
         ],
       ),
