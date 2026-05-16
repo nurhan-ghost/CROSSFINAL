@@ -9,16 +9,6 @@ enum AppThemeSelection {
   lavender(
     label: 'Lavender',
     color: Color(0xFFB388FF),
-  ),
-
-  black(
-    label: 'Black',
-    color: Color(0xFF1E1E1E),
-  ),
-
-  white(
-    label: 'White',
-    color: Color(0xFFF5F5F5),
   );
 
   const AppThemeSelection({

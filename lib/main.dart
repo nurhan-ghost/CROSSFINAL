@@ -122,7 +122,6 @@ class _SneakerStoreAppState extends State<SneakerStoreApp> {
               changeColor: changeColor,
               changeTheme: changeTheme,
               colorSelected: colorSelected,
-              colorChanged: colorSelected,
             );
           }
 
