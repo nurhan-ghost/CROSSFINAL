@@ -15,6 +15,7 @@ import 'domain/entities/shoe_category.dart';
 import 'providers.dart';
 
 import 'screens/profile_screen.dart';
+import 'screens/cart_screen.dart';
 
 class Home extends ConsumerStatefulWidget {
   const Home({
@@ -94,6 +95,79 @@ class HomeState
 
             selectedTheme:
                 widget.colorSelected,
+          ),
+
+          Consumer(
+            builder: (
+              context,
+              ref,
+              child,
+            ) {
+              final cartItems =
+                  ref.watch(
+                cartProvider,
+              );
+
+              return Stack(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              const CartScreen(),
+                        ),
+                      );
+                    },
+
+                    icon:
+                        const Icon(
+                      Icons
+                          .shopping_cart_outlined,
+                    ),
+                  ),
+
+                  if (cartItems
+                      .isNotEmpty)
+                    Positioned(
+                      right: 6,
+                      top: 6,
+
+                      child:
+                          Container(
+                        padding:
+                            const EdgeInsets.all(
+                          4,
+                        ),
+
+                        decoration:
+                            const BoxDecoration(
+                          color:
+                              Colors.red,
+
+                          shape:
+                              BoxShape.circle,
+                        ),
+
+                        child: Text(
+                          cartItems.length
+                              .toString(),
+
+                          style:
+                              const TextStyle(
+                            color:
+                                Colors.white,
+
+                            fontSize:
+                                10,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
           ),
 
           IconButton(

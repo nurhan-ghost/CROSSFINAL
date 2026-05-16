@@ -6,12 +6,10 @@ class ThemeColorButton extends StatelessWidget {
     super.key,
     required this.onColorChanged,
     required this.selectedTheme,
-    required this.changeColor,
   });
 
   final void Function(int) onColorChanged;
   final AppThemeSelection selectedTheme;
-  final dynamic changeColor;
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +35,16 @@ class ThemeColorButton extends StatelessWidget {
 
             return PopupMenuItem(
               value: index,
-              enabled: currentTheme != selectedTheme,
+              enabled:
+                  currentTheme != selectedTheme,
               child: Row(
                 children: [
                   Container(
                     width: 18,
                     height: 18,
                     decoration: BoxDecoration(
-                      color: currentTheme.color,
+                      color:
+                          currentTheme.color,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -54,7 +54,8 @@ class ThemeColorButton extends StatelessWidget {
                   Text(
                     currentTheme.label,
                     style: const TextStyle(
-                      fontWeight: FontWeight.w500,
+                      fontWeight:
+                          FontWeight.w500,
                     ),
                   ),
                 ],
