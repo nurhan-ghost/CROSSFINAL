@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/shoe.dart';
+import '../models/product.dart';
 import '../providers/cart_provider.dart';
 import '../providers/favorite_provider.dart';
 
 class SneakerLandscapeCard extends ConsumerWidget {
-  final Shoe product;
+  final Product product;
 
   const SneakerLandscapeCard({
     super.key,
@@ -39,7 +39,7 @@ class SneakerLandscapeCard extends ConsumerWidget {
           BoxShadow(
             blurRadius: 14,
             offset: const Offset(0, 5),
-            color: Colors.black.withOpacity(0.08),
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.08),
           ),
         ],
       ),
@@ -56,9 +56,21 @@ class SneakerLandscapeCard extends ConsumerWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.asset(
-                    product.imageUrl,
+                  Image.network(
+                    product.image,
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.1),
+                        child: const Icon(
+                          Icons.image_not_supported,
+                          size: 50,
+                        ),
+                      );
+                    },
                   ),
 
                   // GRADIENT
@@ -82,26 +94,34 @@ class SneakerLandscapeCard extends ConsumerWidget {
                     child: GestureDetector(
                       onTap: () {
                         ref
-                            .read(favoriteProvider.notifier)
+                            .read(
+                              favoriteProvider.notifier,
+                            )
                             .toggleFavorite(product);
                       },
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.1),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 8,
-                              color: Colors.black.withOpacity(0.1),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.1),
                             ),
                           ],
                         ),
                         child: Icon(
-                          isFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: const Color(0xFF7C4DFF),
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: const Color(
+                            0xFF7C4DFF,
+                          ),
                         ),
                       ),
                     ),
@@ -117,7 +137,10 @@ class SneakerLandscapeCard extends ConsumerWidget {
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surface
+                            .withOpacity(0.9),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Text(
@@ -140,7 +163,7 @@ class SneakerLandscapeCard extends ConsumerWidget {
               vertical: 8,
             ),
             title: Text(
-              product.name,
+              product.title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: textTheme.titleMedium?.copyWith(
@@ -152,21 +175,21 @@ class SneakerLandscapeCard extends ConsumerWidget {
               child: Text(
                 '\$${product.price.toStringAsFixed(2)}',
                 style: textTheme.bodyLarge?.copyWith(
-                  color: const Color(0xFF7C4DFF),
+                  color: const Color(
+                    0xFF7C4DFF,
+                  ),
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ),
             trailing: IconButton(
               onPressed: () {
-                ref
-                    .read(cartProvider.notifier)
-                    .addToCart(product);
+                ref.read(cartProvider.notifier).addToCart(product);
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      '${product.name} added to cart',
+                      '${product.title} added to cart',
                     ),
                   ),
                 );
@@ -181,3 +204,5 @@ class SneakerLandscapeCard extends ConsumerWidget {
     );
   }
 }
+
+extension on Object? {}
